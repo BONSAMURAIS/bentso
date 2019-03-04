@@ -1,0 +1,10 @@
+appdirs
+beautifulsoup4
+docopt
+entsoe-py
+pandas
+pytz
+requests
+pytest
+pytest-cov
+python-coveralls
