@@ -28,23 +28,28 @@ setup(
     name='your_library_name',
     version="0.0.1",
     packages=packages,
-    author="your_name_here",
-    author_email="your_email_here",
+    author="Chris Mutel",
+    author_email="cmutel@gmail.com",
     license=open('LICENSE').read(),
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
     # package_data={'your_name_here': package_files(os.path.join('your_library_name', 'data'))},
-    entry_points = {
-        'console_scripts': [
-            'your_library_name-cli = your_library_name.bin.rename_me_cli:main',
-        ]
-    },
+    # entry_points = {
+    #     'console_scripts': [
+    #         'your_library_name-cli = your_library_name.bin.rename_me_cli:main',
+    #     ]
+    # },
     install_requires=[
         'appdirs',
+        'beautifulsoup4',
         'docopt',
+        'entsoe-py',
+        'pandas',
+        'pytz',
+        'requests',
     ],
-    url="your_url_here",
+    url="https://github.com/BONSAMURAIS/bentso",
     long_description=open('README.md').read(),
-    description='your_name_here',
+    description='BONSAI living model for European electricity via ENTSO-E API',
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
