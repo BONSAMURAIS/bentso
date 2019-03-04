@@ -12,9 +12,6 @@ python:
 before_install:
   - if [ $TRAVIS_OS_NAME == "osx" ]; then
       echo "Running on OS X";
-      # brew upgrade python;
-      # Upgrades from 3.6 to 3.7
-      # But takes forever
       echo $(python3 --version);
       echo $(python --version);
     else
