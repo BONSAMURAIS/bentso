@@ -12,7 +12,7 @@ python:
 before_install:
   - if [ $TRAVIS_OS_NAME == "osx" ]; then
       echo "Running on OS X";
-      brew install python3;
+      brew upgrade python;
       echo $(python3 --version);
     else
       echo "Running on Linux";
@@ -29,12 +29,12 @@ before_install:
     fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION requests pytz pandas beautifulsoup4 pytest appdirs docopt twine;
+      conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION requests pytz pandas beautifulsoup4 pytest appdirs docopt twine pytest pytest-cov python-coveralls;
       source activate test-environment;
       pip install entsoe-py;
       python setup.py install;
     else
-      pip install -r ci/requirements-travis.txt;
+      pip3 install -r ci/requirements-travis.txt;
     fi
 script:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
