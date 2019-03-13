@@ -35,7 +35,7 @@ install:
       python setup.py install;
     else
       pip3 install -r ci/requirements-travis.txt;
-      python setup.py install;
+      pip3 install -e .;
     fi
 script:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
