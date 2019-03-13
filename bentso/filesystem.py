@@ -5,6 +5,7 @@ import appdirs
 def load_token():
     cwd = os.getcwd()
     token = os.environ.get('ENTSOE_API_TOKEN')
+    # TODO: Consider https://github.com/theskumar/python-dotenv
     if not token and "entsoe_api_token.txt" in os.listdir(cwd):
         token = open("entsoe_api_token.txt").readlines()[0].strip()
     if not token:
