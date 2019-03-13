@@ -6,5 +6,4 @@ pandas
 pytz
 requests
 pytest
-pytest-cov
-
+pytest-env
