@@ -22,7 +22,7 @@ install:
   - python --version
   - conda config --set always_yes yes
   - conda update -y -q conda
-  - conda install -y -q -c conda-forge requests pytz pandas beautifulsoup4 pytest appdirs docopt twine pytest>4.3 pytest-env
+  - conda install -y -c conda-forge requests pytz pandas beautifulsoup4 appdirs docopt twine pytest>4.3 pytest-env
   - pip install entsoe-py
   - pip install -e .
 
