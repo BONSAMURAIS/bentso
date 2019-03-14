@@ -32,7 +32,7 @@ install:
       conda create -n test-environment python=$TRAVIS_PYTHON_VERSION requests pytz pandas beautifulsoup4 pytest appdirs docopt twine pytest pytest-env pytest-cov coveralls;
       source activate test-environment;
       pip install entsoe-py;
-      python setup.py install;
+      pip install -e .;
     else
       pip3 install -r ci/requirements-travis.txt;
       pip3 install -e .;
