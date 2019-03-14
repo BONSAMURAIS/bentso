@@ -42,6 +42,7 @@ script:
       pwd;
       ls;
       pytest --cov=bentso;
+      coveralls;
     else
       pytest;
     fi
