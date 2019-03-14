@@ -26,7 +26,7 @@ Install development version of bentso:
 
 Create a new Conda environment:
 
-    conda create -n bentso -y -q -c conda-forge python=3.7 requests pytz pandas beautifulsoup4 pytest pytest-env appdirs docopt twine
+    conda create -n bentso -y -q -c conda-forge python=3.7 requests pytz pandas beautifulsoup4 pytest pytest-env appdirs docopt twine jupyter ipython
 
 Install entsoe-py:
 
