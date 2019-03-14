@@ -2,6 +2,8 @@
 
 A library to process ENTSO-E electricity data for use in industrial ecology and life cycle assessment. Developed as part of the [BONSAI](https://bonsai.uno/) network.
 
+[![Travis CI Status](https://travis-ci.org/BONSAMURAIS/bentso.svg?branch=master)](https://travis-ci.org/BONSAMURAIS/bentso) [![Appveyor CI status](https://ci.appveyor.com/api/projects/status/2fol87o7el4humq9?svg=true)](https://ci.appveyor.com/project/cmutel/bentso) [![Documentation Status](https://readthedocs.org/projects/bentso/badge/?version=latest)](https://bentso.readthedocs.io/en/latest/?badge=latest)
+
 ## Installation
 
 ### Pip/virtualenv
