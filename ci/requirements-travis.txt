@@ -2,6 +2,7 @@ appdirs
 beautifulsoup4
 docopt
 entsoe-py
+peewee
 pandas
 pytz
 requests

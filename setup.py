@@ -44,6 +44,7 @@ setup(
         'docopt',
         'entsoe-py',
         'pandas',
+        'peewee',
         'pytz',
         'requests',
     ],

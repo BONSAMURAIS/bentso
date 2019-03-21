@@ -1,8 +1,11 @@
 __version__ = (0, 0, 1)
 __all__ = (
+    "DEFAULT_DATA_DIR",
+    "USER_PATH",
     "TOKEN",
-    "DATA_DIR",
+    "CachingDataClient",
 )
 
 
-from .filesystem import TOKEN, DATA_DIR
+from .filesystem import TOKEN, DEFAULT_DATA_DIR, USER_PATH
+from .client import CachingDataClient
