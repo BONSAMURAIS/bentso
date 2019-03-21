@@ -1,6 +1,11 @@
-from . import TOKEN, DEFAULT_DATA_DIR, USER_PATH
 from .db import get_database, File
-from .filesystem import create_dir, sha256
+from .filesystem import (
+    DEFAULT_DATA_DIR,
+    USER_PATH,
+    create_dir,
+    sha256,
+    load_token,
+)
 from entsoe import EntsoePandasClient
 from peewee import DoesNotExist
 import os
@@ -15,84 +20,72 @@ class CachingDataClient:
         self.data_dir = os.path.join(self.dir, "data")
         create_dir(self.data_dir)
         print("Using data directory {}".format(self.dir))
-        self.client = EntsoePandasClient(api_key=TOKEN)
+        self.client = EntsoePandasClient(api_key=load_token())
 
     def get_trade(self, from_country, to_country, year):
-        year = int(year)
         country_field = "{}-{}".format(from_country, to_country)
-        try:
-            obj = File.select().where(File.kind=='trade',
-                                      File.country==country_field,
-                                      File.year==year).get()
-            return self._load_df(obj)
-        except DoesNotExist:
-            print("Querying ENTSO-E API. Please be patient...")
-            start, end = self._get_start_end(year)
-            df = self.client.query_crossborder_flows(from_country, to_country,
-                                                     start=start, end=end)
-            hash, path = self._store_df(
-                df,
-                "trade-{}-{}.pickle".format(country_field, year)
-            )
-            File.create(
-                filepath=path,
-                country=country_field,
-                year=year,
-                sha256=hash,
-                kind='trade',
-            )
-            return df
+        return self._cached_query(
+            (from_country, to_country,),
+            year,
+            'trade',
+            country_field,
+            self.client.query_crossborder_flows,
+        )
 
     def get_consumption(self, country, year):
-        year = int(year)
-        try:
-            obj = File.select().where(File.kind=='load',
-                                      File.country==country,
-                                      File.year==year).get()
-            return self._load_df(obj)
-        except DoesNotExist:
-            print("Querying ENTSO-E API. Please be patient...")
-            start, end = self._get_start_end(year)
-            df = self.client.query_load(country, start=start, end=end)
-            hash, path = self._store_df(
-                df,
-                "load-{}-{}.pickle".format(country, year)
-            )
-            File.create(
-                filepath=path,
-                country=country,
-                year=year,
-                sha256=hash,
-                kind='load',
-            )
-            return df
+        return self._cached_query(
+            (country,),
+            year,
+            'load',
+            country,
+            self.client.query_load,
+        )
 
     def get_generation(self, country, year):
-        year = int(year)
-        try:
-            obj = File.select().where(File.kind=='generation',
-                                      File.country==country,
-                                      File.year==year).get()
-            return self._load_df(obj)
-        except DoesNotExist:
-            print("Querying ENTSO-E API. Please be patient...")
-            start, end = self._get_start_end(year)
-            df = self.client.query_generation(country, start=start, end=end)
-            hash, path = self._store_df(
-                df,
-                "generation-{}-{}.pickle".format(country, year)
-            )
-            File.create(
-                filepath=path,
-                country=country,
-                year=year,
-                sha256=hash,
-                kind='generation',
-            )
-            return df
+        return self._cached_query(
+            (country,),
+            year,
+            'generation',
+            country,
+            self.client.query_generation,
+        )
+
+    def get_capacity(self, country, year):
+        return self._cached_query(
+            (country,),
+            year,
+            'capacity',
+            country,
+            self.client.query_installed_generation_capacity,
+        )
 
     def get_hydro_charging(self, country, year):
         pass
+
+    def _cached_query(self, args, year, kind_label, country_label, method):
+        year = int(year)
+        start, end = self._get_start_end(year)
+        try:
+            obj = File.select().where(File.kind==kind_label,
+                                      File.country==country_label,
+                                      File.year==year).get()
+            return self._load_df(obj)
+        except DoesNotExist:
+            print("Querying ENTSO-E API. Please be patient...")
+            start, end = self._get_start_end(year)
+            df = method(*args, start=start, end=end)
+            hash, path = self._store_df(
+                df,
+                "{}-{}-{}.pickle".format(kind_label, country_label, year)
+            )
+            File.create(
+                filepath=path,
+                country=country_label,
+                year=year,
+                sha256=hash,
+                kind=kind_label,
+            )
+            return df
 
     def _get_start_end(self, year):
         return (
@@ -106,4 +99,6 @@ class CachingDataClient:
         return sha256(path), path
 
     def _load_df(self, obj):
+        if sha256(obj.filepath) != obj.sha256:
+            raise OSError("Corrupted cache file: {}".format(obj.filepath))
         return pd.read_pickle(obj.filepath)

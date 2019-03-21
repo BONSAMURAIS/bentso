@@ -4,35 +4,7 @@ A library to process ENTSO-E electricity data for use in industrial ecology and 
 
 [![Travis CI Status](https://travis-ci.org/BONSAMURAIS/bentso.svg?branch=master)](https://travis-ci.org/BONSAMURAIS/bentso) [![Appveyor CI status](https://ci.appveyor.com/api/projects/status/2fol87o7el4humq9?svg=true)](https://ci.appveyor.com/project/cmutel/bentso) [![Documentation Status](https://readthedocs.org/projects/bentso/badge/?version=latest)](https://bentso.readthedocs.io/en/latest/?badge=latest)
 
-## Installation
-
-### Pip/virtualenv
-
-Create a new virtual environment, and install the development version of bentso:
-
-    pip install https://github.com/BONSAMURAIS/bentso/archive/master.zip
-
-### Conda
-
-Create a new Conda environment:
-
-    conda create -n bentso -y -q -c conda-forge python=3.7 requests pytz pandas beautifulsoup4 appdirs docopt
-
-Install development version of bentso:
-
-    pip install https://github.com/BONSAMURAIS/bentso/archive/master.zip
-
-### Developers
-
-Create a new Conda environment:
-
-    conda create -n bentso -y -q -c conda-forge python=3.7 requests pytz pandas beautifulsoup4 pytest pytest-env appdirs docopt twine jupyter ipython
-
-Install entsoe-py:
-
-    pip install entsoe-py
-
-Then clone the [Github repo](https://github.com/BONSAMURAIS/bentso) to a working directory.
+See the [documentation](https://bentso.readthedocs.io/en/latest/) for more.
 
 ## Example living life cycle inventory model
 

@@ -5,7 +5,9 @@ bentso - BONSAI ENTSO-E LCI data machine
    :maxdepth: 2
    :caption: Contents:
 
-   apikey
+   installation
+   usage
+
 
 Indices and tables
 ==================

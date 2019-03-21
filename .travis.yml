@@ -29,7 +29,7 @@ before_install:
     fi
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION requests pytz pandas beautifulsoup4 pytest appdirs docopt twine pytest pytest-env pytest-cov coveralls;
+      conda create -n test-environment python=$TRAVIS_PYTHON_VERSION requests pytz pandas beautifulsoup4 pytest appdirs docopt twine peewee pytest pytest-env pytest-cov coveralls;
       source activate test-environment;
       pip install entsoe-py;
       pip install -e .;

@@ -4,7 +4,7 @@ import os
 
 
 USER_PATH = os.environ.get('BENTSO_DATA_DIR')
-DEFAULT_DATA_DIR = appdirs.user_data_dir("bonsai", "bentso")
+DEFAULT_DATA_DIR = appdirs.user_data_dir("bentso", "bonsai")
 
 
 def load_token():
@@ -16,8 +16,6 @@ def load_token():
     if not token:
         raise ValueError("Can't find ENTSO-E token")
     return token
-
-TOKEN = load_token()
 
 
 def create_dir(dirpath):
