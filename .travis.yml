@@ -22,7 +22,8 @@ before_install:
       export PATH="$HOME/miniconda/bin:$PATH";
       hash -r;
       conda config --set always_yes yes --set changeps1 no;
-      conda config --append channels conda-forge cmutel;
+      conda config --append channels conda-forge;
+      conda config --append channels cmutel;
       conda update conda;
       conda info -a;
       echo $(python --version);
