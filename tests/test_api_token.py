@@ -5,11 +5,9 @@ import bentso
 
 def test_no_key(monkeypatch):
     monkeypatch.setenv('ENTSOE_API_TOKEN', '')
-    print("Found in test:", os.environ['ENTSOE_API_TOKEN'])
     with pytest.raises(ValueError):
         import bentso
         bentso.CachingDataClient()
-
 
 def test_token_file(tmp_path, monkeypatch):
     monkeypatch.setenv('ENTSOE_API_TOKEN', '')

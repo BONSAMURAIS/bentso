@@ -1,7 +1,6 @@
 from .db import get_database, File
 from .filesystem import (
     DEFAULT_DATA_DIR,
-    USER_PATH,
     create_dir,
     sha256,
     load_token,
@@ -14,6 +13,7 @@ import pandas as pd
 
 class CachingDataClient:
     def __init__(self, location=None):
+        USER_PATH = os.environ.get('BENTSO_DATA_DIR')
         self.dir = location or USER_PATH or DEFAULT_DATA_DIR
         create_dir(self.dir)
         get_database(self.dir)

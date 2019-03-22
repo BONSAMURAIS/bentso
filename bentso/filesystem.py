@@ -3,7 +3,6 @@ import hashlib
 import os
 
 
-USER_PATH = os.environ.get('BENTSO_DATA_DIR')
 DEFAULT_DATA_DIR = appdirs.user_data_dir("bentso", "bonsai")
 
 
