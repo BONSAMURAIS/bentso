@@ -43,6 +43,10 @@ script:
       ls;
       pytest --cov=bentso;
       coveralls;
+      if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+        conda install conda-build anaconda-client;
+        bash ci/conda_upload.sh;
+      fi
     else
       pytest;
     fi
