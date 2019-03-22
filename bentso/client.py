@@ -74,12 +74,12 @@ class CachingDataClient:
             print("Querying ENTSO-E API. Please be patient...")
             start, end = self._get_start_end(year)
             df = method(*args, start=start, end=end)
-            hash, path = self._store_df(
+            hash, name = self._store_df(
                 df,
                 "{}-{}-{}.pickle".format(kind_label, country_label, year)
             )
             File.create(
-                filepath=path,
+                filename=name,
                 country=country_label,
                 year=year,
                 sha256=hash,
@@ -94,11 +94,12 @@ class CachingDataClient:
         )
 
     def _store_df(self, df, name):
-        path = os.path.join(self.data_dir, name)
-        df.to_pickle(path)
-        return sha256(path), path
+        filepath = os.path.join(self.data_dir, name)
+        df.to_pickle(filepath)
+        return sha256(filepath), name
 
     def _load_df(self, obj):
-        if sha256(obj.filepath) != obj.sha256:
-            raise OSError("Corrupted cache file: {}".format(obj.filepath))
-        return pd.read_pickle(obj.filepath)
+        filepath = os.path.join(self.data_dir, obj.filename)
+        if sha256(filepath) != obj.sha256:
+            raise OSError("Corrupted cache file: {}".format(obj.filename))
+        return pd.read_pickle(filepath)

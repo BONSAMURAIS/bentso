@@ -12,7 +12,7 @@ _db = SqliteDatabase(None)
 
 
 class File(Model):
-    filepath = TextField()
+    filename = TextField()
     country = TextField()
     year = IntegerField()
     sha256 = TextField(unique=True)
