@@ -1,0 +1,43 @@
+What Bentso has to do:
+
+c: country
+y: year
+h: time period (hours, days, weeks, month)
+t: technology
+
+
+Consumption per country, year and hour can be calculated with the following equation:
+
+
+Cons_{c,y,h} = Gen_{c,y,h} + Imp_{c,y,h} - Exp_{c,y,h} - StoCons_{c,y,h}
+
+where:
+
+Gen_{c,y,h} can be obtained from ENTSO-e
+
+Imp_{c,y,h} can be obtained from ENTSO-e
+
+Exp_{c,y,h} can be obtained from ENTSO-e
+
+StoCons_{c,y,h} has to be estimated
+
+
+
+If we have the above data then we can calculate the generation and consumption by technology:
+
+GenTech_{c,y,h,t} can be obtained from ENTSO-e
+
+ExpTech_{c,y,h,t} = Exp_{c,y,h} GenTech_{c,y,h,t}/Gen_{c,y,h}
+
+
+
+ImpFromCountry_{c,y,h,i} we have to chack if this can be obtained from ENTSO-e
+
+ImpTechFromCountry_{c,y,h,i,t} = ImpFromCountry_{c,y,h,i} ExpTech_{i,y,h,t}/Exp_{i,y,h}  in this case 
+
+StoConsTech_{c,y,h,t} Needs to be estimated
+
+
+Only if everything above has been obatined or calculated, then consumption can be estimated.
+
+Cons_{c,y,h} = \sum_t \left ( GenTech_{c,y,h,t} - \left ( ExpTech_{c,y,h,t} + StoConsTech_{c,y,h,t}  \right ) + \sum_i ImpTechFromCountry_{c,y,h,i,t} \right )
