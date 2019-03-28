@@ -3,6 +3,7 @@ from bentso import CachingDataClient
 c = CachingDataClient()
 
 def InterateCountriesProduction(year):
+    # toogle countries vector; short one just for test
     # countries = ['AT','BE','BA','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IS','IT','LV','LU','MK','ME','NL','NI','NO','PL','PT','RO','RS','SK','SI','SE','CH'];
     countries = ['ES','FR'];
     mom = list()
@@ -19,6 +20,7 @@ def InterateCountriesProduction(year):
     return(df)
 	
 def InterateCountriesTrade(year):
+    # toogle countries vector; short one just for test
     # countries = ['AT','BE','BA','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IS','IT','LV','LU','MK','ME','NL','NI','NO','PL','PT','RO','RS','SK','SI','SE','CH'];
     countries = ['ES','FR'];
     mom = list()
