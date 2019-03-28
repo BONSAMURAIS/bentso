@@ -1,0 +1,32 @@
+technology,country,energy_MJ
+Biomass,ES,10737208800.0
+Fossil Brown coal/Lignite,ES,17165156400.0
+Fossil Coal-derived gas,ES,0.0
+Fossil Gas,ES,204154614000.0
+Fossil Hard coal,ES,136681117200.0
+Fossil Oil,ES,9294663600.0
+Fossil Oil shale,ES,0.0
+Fossil Peat,ES,0.0
+Geothermal,ES,0.0
+Hydro Pumped Storage,ES,13191382800.0
+Hydro Run-of-river and poundage,ES,24232730400.0
+Hydro Water Reservoir,ES,50565916800.0
+Marine,ES,0.0
+Nuclear,ES,200131725600.0
+Other,ES,1553698800.0
+Other renewable,ES,2989382400.0
+Solar,ES,47152134000.0
+Waste,ES,9386992800.0
+Wind Offshore,ES,0.0
+Wind Onshore,ES,169667874000.0
+Biomass,FR,10979384400.0
+Fossil Gas,FR,147398756400.0
+Fossil Hard coal,FR,34886988000.0
+Fossil Oil,FR,8747046000.0
+Hydro Pumped Storage,FR,41074027200.0
+Hydro Run-of-river and poundage,FR,126409028400.0
+Hydro Water Reservoir,FR,44987979600.0
+Nuclear,FR,1360799668800.0
+Solar,FR,32057028000.0
+Waste,FR,7590880800.0
+Wind Onshore,FR,82202036400.0
