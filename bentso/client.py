@@ -7,20 +7,27 @@ from .filesystem import (
 )
 from entsoe import EntsoePandasClient
 from peewee import DoesNotExist
+from unittest.mock import Mock
 import os
 import pandas as pd
 
 
 class CachingDataClient:
-    def __init__(self, location=None):
+    def __init__(self, location=None, key=None, verbose=True):
+        self._cache_only = key == "cache-only"
+        self.verbose = verbose
         USER_PATH = os.environ.get('BENTSO_DATA_DIR')
         self.dir = location or USER_PATH or DEFAULT_DATA_DIR
         create_dir(self.dir)
         get_database(self.dir)
         self.data_dir = os.path.join(self.dir, "data")
         create_dir(self.data_dir)
-        print("Using data directory {}".format(self.dir))
-        self.client = EntsoePandasClient(api_key=load_token())
+        if self.verbose:
+            print("Using data directory {}".format(self.dir))
+        if not self._cache_only:
+            self.client = EntsoePandasClient(api_key=load_token())
+        else:
+            self.client = Mock()
 
     def get_trade(self, from_country, to_country, year):
         country_field = "{}-{}".format(from_country, to_country)
@@ -61,7 +68,7 @@ class CachingDataClient:
 
     def get_hydro_charging(self, country, year):
         pass
-        
+
     def get_day_ahead_prices(self, country, year):
         return self._cached_query(
             (country,),
@@ -80,21 +87,26 @@ class CachingDataClient:
                                       File.year==year).get()
             return self._load_df(obj)
         except DoesNotExist:
-            print("Querying ENTSO-E API. Please be patient...")
-            start, end = self._get_start_end(year)
-            df = method(*args, start=start, end=end)
-            hash, name = self._store_df(
-                df,
-                "{}-{}-{}.pickle".format(kind_label, country_label, year)
-            )
-            File.create(
-                filename=name,
-                country=country_label,
-                year=year,
-                sha256=hash,
-                kind=kind_label,
-            )
-            return df
+            if not self._cache_only:
+                if self.verbose:
+                    print("Querying ENTSO-E API. Please be patient...")
+                start, end = self._get_start_end(year)
+                df = method(*args, start=start, end=end)
+                hash, name = self._store_df(
+                    df,
+                    "{}-{}-{}.pickle".format(kind_label, country_label, year)
+                )
+                File.create(
+                    filename=name,
+                    country=country_label,
+                    year=year,
+                    sha256=hash,
+                    kind=kind_label,
+                )
+                return df
+            else:
+                if self.verbose:
+                    print("Value not in cache; returning nothing.")
 
     def _get_start_end(self, year):
         return (
