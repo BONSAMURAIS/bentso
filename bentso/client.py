@@ -61,6 +61,15 @@ class CachingDataClient:
 
     def get_hydro_charging(self, country, year):
         pass
+        
+    def get_day_ahead_prices(self, country, year):
+        return self._cached_query(
+            (country,),
+            year,
+            'price',
+            country,
+            self.client.query_day_ahead_prices,
+        )
 
     def _cached_query(self, args, year, kind_label, country_label, method):
         year = int(year)
