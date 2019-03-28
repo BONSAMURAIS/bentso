@@ -3,7 +3,7 @@ beautifulsoup4
 docopt
 entsoe-py
 pandas==0.24.2
-
+pyomo
 peewee
 pytz
 requests
