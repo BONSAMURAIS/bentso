@@ -1,0 +1,246 @@
+technology,country,energy_MJ
+Biomass,AT,37081166400.0
+Fossil Gas,AT,117602582400.0
+Fossil Hard coal,AT,20482840800.0
+Fossil Oil,AT,0.0
+Geothermal,AT,0.0
+Hydro Pumped Storage,AT,67629124800.0
+Hydro Run-of-river and poundage,AT,365237298000.0
+Hydro Water Reservoir,AT,66973370400.0
+Other,AT,2775168000.0
+Other renewable,AT,0.0
+Solar,AT,20499188400.0
+Waste,AT,12614400000.0
+Wind Onshore,AT,92105960400.0
+Biomass,BE,11087503200.0
+Fossil Gas,BE,80282844000.0
+Fossil Hard coal,BE,0.0
+Fossil Oil,BE,10436400.0
+Hydro Pumped Storage,BE,3609280800.0
+Hydro Run-of-river and poundage,BE,223905600.0
+Nuclear,BE,97491276000.0
+Other,BE,19664330400.0
+Solar,BE,12787074000.0
+Waste,BE,5731272000.0
+Wind Offshore,BE,11922638400.0
+Wind Onshore,BE,10656831600.0
+Fossil Brown coal/Lignite,BA,7151443200.0
+Fossil Hard coal,BA,30926066400.0
+Hydro Water Reservoir,BA,13135950000.0
+Wind Onshore,BA,33735600.0
+Biomass,BG,923954400.0
+Fossil Brown coal/Lignite,BG,70573784400.0
+Fossil Gas,BG,7108156800.0
+Fossil Hard coal,BG,2136304800.0
+Hydro Pumped Storage,BG,913557600.0
+Hydro Run-of-river and poundage,BG,5861257200.0
+Hydro Water Reservoir,BG,12285954000.0
+Nuclear,BG,58038447600.0
+Solar,BG,4340800800.0
+Waste,BG,115729200.0
+Wind Onshore,BG,4582962000.0
+Biomass,CZ,8112254400.0
+Fossil Brown coal/Lignite,CZ,121421426400.0
+Fossil Coal-derived gas,CZ,5980824000.0
+Fossil Gas,CZ,12085513200.0
+Fossil Hard coal,CZ,12555450000.0
+Fossil Oil,CZ,182433600.0
+Hydro Pumped Storage,CZ,3749515200.0
+Hydro Run-of-river and poundage,CZ,2682187200.0
+Hydro Water Reservoir,CZ,3602912400.0
+Nuclear,CZ,101622675600.0
+Other,CZ,3625894800.0
+Other renewable,CZ,8597811600.0
+Solar,CZ,8391085200.0
+Waste,CZ,543326400.0
+Wind Onshore,CZ,2181294000.0
+Biomass,DK,13836513600.0
+Fossil Gas,DK,10233169200.0
+Fossil Hard coal,DK,23125680000.0
+Fossil Oil,DK,739062000.0
+Solar,DK,3470709600.0
+Waste,DK,4460007600.0
+Wind Offshore,DK,15964455600.0
+Wind Onshore,DK,34259382000.0
+Biomass,EE,1979233200.0
+Fossil Coal-derived gas,EE,1626696000.0
+Fossil Gas,EE,112269600.0
+Fossil Oil shale,EE,29524672800.0
+Fossil Peat,EE,135680400.0
+Hydro Run-of-river and poundage,EE,101872800.0
+Other,EE,0.0
+Other renewable,EE,193759200.0
+Solar,EE,30744000.0
+Waste,EE,444351600.0
+Wind Onshore,EE,2204431200.0
+Biomass,FI,23059569600.0
+Fossil Gas,FI,17999823600.0
+Fossil Hard coal,FI,21495711600.0
+Fossil Oil,FI,62330400.0
+Fossil Peat,FI,15391360800.0
+Hydro Run-of-river and poundage,FI,45067744800.0
+Nuclear,FI,78784444800.0
+Other,FI,5054320800.0
+Other renewable,FI,1179871200.0
+Waste,FI,873356400.0
+Wind Onshore,FI,19390489200.0
+Biomass,FR,12558452400.0
+Fossil Gas,FR,107695224000.0
+Fossil Hard coal,FR,20907219600.0
+Fossil Oil,FR,6834686400.0
+Hydro Pumped Storage,FR,42774516000.0
+Hydro Run-of-river and poundage,FR,154205352000.0
+Hydro Water Reservoir,FR,63622220400.0
+Nuclear,FR,1409884930800.0
+Solar,FR,35004675600.0
+Waste,FR,7287566400.0
+Wind Onshore,FR,96487250400.0
+Biomass,DE,578659590000.0
+Fossil Brown coal/Lignite,DE,1850754708000.0
+Fossil Coal-derived gas,DE,53891402400.0
+Fossil Gas,DE,487733277600.0
+Fossil Hard coal,DE,1039841805600.0
+Fossil Oil,DE,39843910800.0
+Geothermal,DE,450302400.0
+Hydro Pumped Storage,DE,144841953600.0
+Hydro Run-of-river and poundage,DE,206674812000.0
+Hydro Water Reservoir,DE,13000140000.0
+Nuclear,DE,1034296358400.0
+Other,DE,55597842000.0
+Other renewable,DE,19648299600.0
+Solar,DE,593726450400.0
+Waste,DE,82432764000.0
+Wind Offshore,DE,274683884400.0
+Wind Onshore,DE,1288763794800.0
+Fossil Brown coal/Lignite,GR,54766288800.0
+Fossil Gas,GR,54846194400.0
+Fossil Oil,GR,0.0
+Hydro Pumped Storage,GR,2350083600.0
+Hydro Water Reservoir,GR,15806487600.0
+Solar,GR,12310149600.0
+Wind Onshore,GR,17486460000.0
+Biomass,HU,13106289600.0
+Fossil Brown coal/Lignite,HU,68765792400.0
+Fossil Gas,HU,89886286800.0
+Fossil Oil,HU,64890000.0
+Hydro Run-of-river and poundage,HU,1195963200.0
+Hydro Water Reservoir,HU,1393707600.0
+Nuclear,HU,213187932000.0
+Other,HU,9652233600.0
+Other renewable,HU,1641038400.0
+Waste,HU,1697824800.0
+Wind Onshore,HU,8212795200.0
+Fossil Gas,IE,59404294800.0
+Fossil Hard coal,IE,10681891200.0
+Fossil Oil,IE,13019130000.0
+Fossil Peat,IE,13379626800.0
+Hydro Pumped Storage,IE,4199090400.0
+Hydro Run-of-river and poundage,IE,2895692400.0
+Other,IE,116438400.0
+Wind Onshore,IE,48340641600.0
+Biomass,IT,12567319200.0
+Fossil Coal-derived gas,IT,6975151200.0
+Fossil Gas,IT,268165386000.0
+Fossil Hard coal,IT,93006212400.0
+Fossil Oil,IT,3500510400.0
+Geothermal,IT,20520619200.0
+Hydro Pumped Storage,IT,10290801600.0
+Hydro Run-of-river and poundage,IT,129134786400.0
+Hydro Water Reservoir,IT,30892420800.0
+Other,IT,213424855200.0
+Solar,IT,64163134800.0
+Waste,IT,1193608800.0
+Wind Onshore,IT,62249659200.0
+Biomass,LV,2376950400.0
+Fossil Gas,LV,9529257600.0
+Hydro Run-of-river and poundage,LV,8509060800.0
+Other,LV,2532355200.0
+Wind Onshore,LV,375440400.0
+Fossil Brown coal/Lignite,MK,11126008800.0
+Hydro Run-of-river and poundage,MK,9403441200.0
+Wind Onshore,MK,319395600.0
+Fossil Brown coal/Lignite,ME,5197798800.0
+Hydro Water Reservoir,ME,4646811600.0
+Other renewable,ME,0.0
+Wind Onshore,ME,331804800.0
+Biomass,NL,4717227600.0
+Fossil Gas,NL,549121032000.0
+Fossil Hard coal,NL,3546000.0
+Nuclear,NL,53534271600.0
+Other,NL,31251600.0
+Solar,NL,44387409600.0
+Wind Offshore,NL,50990914800.0
+Wind Onshore,NL,106720437600.0
+Fossil Gas,NO,11023027200.0
+Hydro Run-of-river and poundage,NO,36044805600.0
+Hydro Water Reservoir,NO,461238984000.0
+Other,NO,4061818800.0
+Wind Onshore,NO,12169947600.0
+Biomass,PL,6482437200.0
+Fossil Brown coal/Lignite,PL,160887546000.0
+Fossil Coal-derived gas,PL,1956186000.0
+Fossil Gas,PL,31260070800.0
+Fossil Hard coal,PL,286842225600.0
+Fossil Oil,PL,5661612000.0
+Hydro Pumped Storage,PL,2278843200.0
+Hydro Run-of-river and poundage,PL,5292691200.0
+Hydro Water Reservoir,PL,370569600.0
+Wind Onshore,PL,44327527200.0
+Biomass,PT,9984168000.0
+Fossil Gas,PT,51984374400.0
+Fossil Hard coal,PT,40192966800.0
+Hydro Pumped Storage,PT,11196979200.0
+Hydro Run-of-river and poundage,PT,26335922400.0
+Hydro Water Reservoir,PT,10734267600.0
+Other,PT,1187978400.0
+Solar,PT,2953796400.0
+Wind Onshore,PT,44468816400.0
+Biomass,RO,1259827200.0
+Fossil Brown coal/Lignite,RO,52517671200.0
+Fossil Gas,RO,38359090800.0
+Fossil Hard coal,RO,4269063600.0
+Hydro Run-of-river and poundage,RO,39073150800.0
+Hydro Water Reservoir,RO,24473800800.0
+Nuclear,RO,40791164400.0
+Solar,RO,4833154800.0
+Wind Onshore,RO,22344548400.0
+Biomass,RS,300484800.0
+Fossil Brown coal/Lignite,RS,81248148000.0
+Fossil Gas,RS,62751600.0
+Hydro Pumped Storage,RS,2650982400.0
+Hydro Run-of-river and poundage,RS,33800007600.0
+Hydro Water Reservoir,RS,3827505600.0
+Other,RS,1382364000.0
+Biomass,SK,2139292800.0
+Fossil Brown coal/Lignite,SK,4799102400.0
+Fossil Gas,SK,5067525600.0
+Fossil Hard coal,SK,2906841600.0
+Fossil Oil,SK,1603486800.0
+Hydro Pumped Storage,SK,2175782400.0
+Hydro Run-of-river and poundage,SK,11244308400.0
+Hydro Water Reservoir,SK,580561200.0
+Nuclear,SK,52773328800.0
+Other,SK,10479934800.0
+Other renewable,SK,1310846400.0
+Solar,SK,1774911600.0
+Wind Onshore,SK,0.0
+Biomass,SI,279075600.0
+Fossil Brown coal/Lignite,SI,14939985600.0
+Fossil Gas,SI,1011826800.0
+Fossil Oil,SI,118800.0
+Hydro Pumped Storage,SI,676098000.0
+Hydro Run-of-river and poundage,SI,16439540400.0
+Nuclear,SI,19757120400.0
+Solar,SI,884001600.0
+Waste,SI,329432400.0
+Wind Onshore,SI,16966800.0
+Hydro Water Reservoir,SE,223605910800.0
+Nuclear,SE,236835190800.0
+Other,SE,30002497200.0
+Wind Onshore,SE,58678660800.0
+Hydro Pumped Storage,CH,24789016800.0
+Hydro Run-of-river and poundage,CH,5523411600.0
+Hydro Water Reservoir,CH,37045857600.0
+Nuclear,CH,84823959600.0
+Solar,CH,1267804800.0
+Wind Onshore,CH,207136800.0
