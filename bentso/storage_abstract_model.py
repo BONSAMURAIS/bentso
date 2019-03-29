@@ -1,6 +1,7 @@
 from pyomo.environ import *
 from pyomo.solvers.plugins import *
 from pyomo.opt import SolverFactory
+from bentso import CachingDataClient
 
 # LP model
      
@@ -10,7 +11,6 @@ def LoadModelData():
     data.load(filename= 'spot_prices.csv',index='H',param='ClearingPrice')
     data.load(filename= 'storage_generation.csv',index='H', param='gen_phs')
     data.load(filename= 'scalar.dat')
-    
     return data
     
 def StorageConsumptionAllocation():
@@ -58,3 +58,51 @@ def StorageConsumptionAllocation():
     m.C3 = Constraint(m.H, rule=C3)
     
     return m
+    
+    
+def PHS_consumption_subtraction(ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1):
+    #here is missing call
+    
+    ctr_yr = c.get_generation(ctr,year)
+    ctr_price = c.get_day_ahead_prices(ctr,year)
+    ctr_cap = c.get_capacity(ctr,year)
+    '''
+    here we have to check the resolution of the data,
+    for the optimization model the amount of rows of generation file and price file should be equal.
+    DE 2016 presents the generation every 15 minutes while the prices is hourly.
+    Now the model shows an error for this case.
+    '''
+    gen = pd.DataFrame(ctr_yr['Hydro Pumped Storage']).reset_index(drop=True).rename(columns={'Hydro Pumped Storage':'gen_phs'})
+    pcs = pd.DataFrame(ctr_price, columns=['ClearingPrice']).reset_index(drop=True)
+    gen.to_csv('storage_generation.csv',index_label='H')
+    pcs.to_csv('spot_prices.csv',index_label='H')
+    if len(gen) == len(pcs):
+        cap_phs = ctr_cap['Hydro Pumped Storage'][0]
+        scalar = {'cap_phs':cap_phs,'storage_hours':storage_hours,'roundtrip_eff':roundtrip_eff,'initial_E_share':initial_E_share}
+
+        f=open("scalar.dat", "w+")
+        for k, v in scalar.items():
+             f.write("table %s := %f; \r\n"%(k,v))
+        f.close()
+        LP = StorageConsumptionAllocation()
+        data = LoadModelData()
+        instance = LP.create_instance(data)
+        opt = SolverFactory('clp') # clp is solver, in windows the .exe file has to be stated as the example: SolverFactory('glpk', executable='C:/bin/glpk/w64/glpsol.exe')
+        outcome = opt.solve(instance,symbolic_solver_labels=False,tee=False,keepfiles = False)
+    else:
+        print('in the optimization length not match for price and gen')
+        raise Exception('Price data length is not equal to generation data length... for %s and %d'%(ctr,year))
+
+    cons_list = []
+    for h in instance.H.value:
+        cons_list.append({'Cons_phs':round(value(instance.CONSUMPTION_phs[h]),1)})
+
+    consumption_phs = pd.DataFrame(cons_list)
+    ctr_yr.reset_index(drop=True,inplace=True)
+    new = ctr_yr.copy()
+    new.drop('Hydro Pumped Storage',axis=1,inplace=True)
+    ctr_gen = pd.DataFrame()
+    ctr_gen = new.apply(lambda row: row/row.sum(),axis=1)*consumption_phs.values
+    ctr_year = new - ctr_gen
+    ctr_year.loc[:,'Hydro Pumped Storage'] = ctr_yr['Hydro Pumped Storage']
+    return ctr_year
