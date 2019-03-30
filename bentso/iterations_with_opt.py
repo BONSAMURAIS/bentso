@@ -18,7 +18,7 @@ def InterateCountriesProduction_with_phs_consumption_subtract(year):
         try:
             ctr_year = c.get_generation(ctr, year)
         except:
-            print('error after querring due to the country '+ ctr +' is not in the ENTSO-e database)
+            print('error after querring due to the country '+ ctr +' is not in the ENTSO-e database')
             continue
         try:
             ctr_year = PHS_consumption_subtraction(ctr,year)
