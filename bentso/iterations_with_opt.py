@@ -1,6 +1,6 @@
 import pandas as pd
-from client import CachingDataClient
-from storage_abstract_model import *
+from .client import CachingDataClient
+from .storage_abstract_model import *
 
 c = CachingDataClient()
 
