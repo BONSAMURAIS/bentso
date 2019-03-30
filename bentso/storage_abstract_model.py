@@ -1,7 +1,7 @@
 from pyomo.environ import *
 from pyomo.solvers.plugins import *
 from pyomo.opt import SolverFactory
-from client import CachingDataClient
+from .client import CachingDataClient
 
 # LP model
      
