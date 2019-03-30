@@ -9,11 +9,12 @@ import os
      
 def LoadModelData():
     cwd = os.getcwd()
+    temp_path = os.path.join(cwd,'temp_opt')
     data = DataPortal()
-    data.load(filename= os.path.join(cwd,'temp_opt','spot_prices.csv'),format='set', set='H')
-    data.load(filename= os.path.join(cwd,'temp_opt','spot_prices.csv'),index='H',param='ClearingPrice')
-    data.load(filename= os.path.join(cwd,'temp_opt','storage_generation.csv'),index='H', param='gen_phs')
-    data.load(filename= os.path.join(cwd,'temp_opt','scalar.dat'))
+    data.load(filename= os.path.join(temp_path,'spot_prices.csv'),format='set', set='H')
+    data.load(filename= os.path.join(temp_path,'spot_prices.csv'),index='H',param='ClearingPrice')
+    data.load(filename= os.path.join(temp_path,'storage_generation.csv'),index='H', param='gen_phs')
+    data.load(filename= os.path.join(temp_path,'scalar.dat'))
     return data
     
 def StorageConsumptionAllocation():
