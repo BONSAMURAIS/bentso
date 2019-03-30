@@ -31,7 +31,7 @@ def InterateCountriesProduction_with_phs_consumption_subtract(year):
         a = list(x.index)
         s = pd.Series(ctr)
         pap =  pd.DataFrame(data={'technology': list(x.index), 'country': list(s.repeat(len(x.index))), 'energy_MJ': list(x)})
-        pap.to_csv(os.path.join(dest_dir,gen_'+ctr+'_'+str(year)+'.csv'),index=False)
+        pap.to_csv(os.path.join(dest_dir,'gen_'+ctr+'_'+str(year)+'.csv'),index=False)
         mom.append(pap)
         
     f=open(os.path.join(dest_dir,"countries_omitted.dat"), "w+")
