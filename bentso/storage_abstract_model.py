@@ -1,16 +1,19 @@
 from pyomo.environ import *
 from pyomo.solvers.plugins import *
 from pyomo.opt import SolverFactory
+from .filesystem import create_dir
 from .client import CachingDataClient
+import os
 
 # LP model
      
 def LoadModelData():
+    cwd = os.getcwd()
     data = DataPortal()
-    data.load(filename= 'spot_prices.csv',format='set', set='H')
-    data.load(filename= 'spot_prices.csv',index='H',param='ClearingPrice')
-    data.load(filename= 'storage_generation.csv',index='H', param='gen_phs')
-    data.load(filename= 'scalar.dat')
+    data.load(filename= os.path.join(cwd,'temp_opt','spot_prices.csv'),format='set', set='H')
+    data.load(filename= os.path.join(cwd,'temp_opt','spot_prices.csv'),index='H',param='ClearingPrice')
+    data.load(filename= os.path.join(cwd,'temp_opt','storage_generation.csv'),index='H', param='gen_phs')
+    data.load(filename= os.path.join(cwd,'temp_opt','scalar.dat'))
     return data
     
 def StorageConsumptionAllocation():
@@ -61,6 +64,11 @@ def StorageConsumptionAllocation():
     
     
 def PHS_consumption_subtraction(ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1):
+    
+    cwd = os.getcwd()
+    temp_path = os.path.join(cwd,'temp_opt')
+    create_dir(temp_path)
+    
     #here is missing call
     
     ctr_yr = c.get_generation(ctr,year)
@@ -74,20 +82,20 @@ def PHS_consumption_subtraction(ctr,year,storage_hours = 6, roundtrip_eff = 0.7,
     '''
     gen = pd.DataFrame(ctr_yr['Hydro Pumped Storage']).reset_index(drop=True).rename(columns={'Hydro Pumped Storage':'gen_phs'})
     pcs = pd.DataFrame(ctr_price, columns=['ClearingPrice']).reset_index(drop=True)
-    gen.to_csv('storage_generation.csv',index_label='H')
-    pcs.to_csv('spot_prices.csv',index_label='H')
+    gen.to_csv(os.path.join(temp_path,'storage_generation.csv'),index_label='H')
+    pcs.to_csv(os.path.join(temp_path,'spot_prices.csv'),index_label='H')
     if len(gen) == len(pcs):
         cap_phs = ctr_cap['Hydro Pumped Storage'][0]
         scalar = {'cap_phs':cap_phs,'storage_hours':storage_hours,'roundtrip_eff':roundtrip_eff,'initial_E_share':initial_E_share}
 
-        f=open("scalar.dat", "w+")
+        f=open(os.path.join(temp_path,"scalar.dat"), "w+")
         for k, v in scalar.items():
              f.write("table %s := %f; \r\n"%(k,v))
         f.close()
         LP = StorageConsumptionAllocation()
         data = LoadModelData()
         instance = LP.create_instance(data)
-        opt = SolverFactory('clp') # clp is solver, in windows the .exe file has to be stated as the example: SolverFactory('glpk', executable='C:/bin/glpk/w64/glpsol.exe')
+        opt = SolverFactory('clp') # clp is the solver, in windows the .exe file has to be stated as the example: SolverFactory('glpk', executable='C:/bin/glpk/w64/glpsol.exe')
         outcome = opt.solve(instance,symbolic_solver_labels=False,tee=False,keepfiles = False)
     else:
         print('in the optimization length not match for price and gen')
