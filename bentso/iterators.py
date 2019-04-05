@@ -7,12 +7,12 @@ COUNTRIES = ['AT','BE','BA','BG','HR','CY','CZ','DK','EE','FI','FR',
              'NI','NO','PL','PT','RO','RS','SK','SI','SE','CH']
 
 
-def iterate_generation(year):
+def iterate_generation(year, location=None, verbose=False):
     """Iterate over all countries and technology types, and return annual
     generation sums as ``(technology, country, amount)``.
 
     All data returned are in ENTSO-E labels and ISO country codes."""
-    c = CachingDataClient(key="cache-only", verbose=False)
+    c = CachingDataClient(key="cache-only", location=location, verbose=verbose)
 
     for country in COUNTRIES:
         gen = c.get_generation(country, year)
@@ -23,12 +23,12 @@ def iterate_generation(year):
                 yield technology, country, amount
 
 
-def iterate_trade(year):
+def iterate_trade(year, location=None, verbose=False):
     """Iterate over all country combinations, and return annual trade sums as
     ``(from country, to country, amount)``.
 
     All country labels returned are in ISO country codes."""
-    c = CachingDataClient(key="cache-only", verbose=False)
+    c = CachingDataClient(key="cache-only", location=location, verbose=verbose)
 
     for from_country, to_country in itertools.combinations(COUNTRIES, 2):
         trd = c.get_trade(from_country, to_country, year)
