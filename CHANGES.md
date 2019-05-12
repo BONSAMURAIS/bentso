@@ -1,3 +1,7 @@
+### 0.2.1 (2019-05-12)
+
+Delete debugging statement
+
 ## 0.2 (2019-05-12)
 
 Added ability to clean dataframes

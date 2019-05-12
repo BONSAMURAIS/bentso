@@ -159,7 +159,6 @@ class CachingDataClient:
 
             oth_renew_total = df['Other renewable'].sum()
             scale = (oth_renew_total / renewable_total) + 1
-            print("Scale:", scale)
             for label in renewables:
                 if label in df:
                     df[label] *= scale
