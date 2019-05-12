@@ -1,5 +1,6 @@
 from bentso import CachingDataClient
 from bentso.db import get_database
+import numpy as np
 import os
 import pandas as pd
 import pytest
@@ -43,3 +44,47 @@ def test_fixtures():
     assert df.sum() == 207975376.
     df = cl.get_trade("ES", "FR", 2017)
     assert df.sum() == 832100.
+
+def test_clean():
+    cl = CachingDataClient(FIXTURES)
+    df = cl.get_generation("DE", 2017)
+    df_clean = cl.get_generation("DE", 2017, True)
+    assert np.allclose(df.sum().sum(), df_clean.sum().sum())
+
+def test_remove_zero_columns():
+    cl = CachingDataClient(FIXTURES)
+    df = cl.get_generation("DE", 2017)
+    previous, missing = df.sum().sum(), df['Fossil Gas'].sum()
+    df['Fossil Gas'] *= 0
+    df = cl._remove_zero_columns(df)
+    assert 'Fossil Gas' not in df
+    assert np.allclose(previous - missing, df.sum().sum())
+
+def test_remove_other():
+    cl = CachingDataClient(FIXTURES)
+    df = cl.get_generation("DE", 2017)
+    other, total, gas = df['Other'].sum(), df.sum().sum(), df['Fossil Gas'].sum()
+    df = cl._remove_other(df)
+    assert 'Other' not in df
+    assert np.allclose(df.sum().sum(), total)
+    assert np.allclose(df['Fossil Gas'].sum(), gas / ((total - other) / total))
+
+def test_remove_other_renewable():
+    cl = CachingDataClient(FIXTURES)
+    df = cl.get_generation("DE", 2017)
+    our_renewables = ["Solar", "Geothermal", "Goofball"]
+    solar, geo, total = df['Solar'].sum(), df['Geothermal'].sum(), df.sum().sum()
+    other_r, gas = df['Other renewable'].sum(), df['Fossil Gas'].sum()
+    scale = (other_r / (solar + geo)) + 1
+    df = cl._remove_other_renewable(df, our_renewables)
+    assert np.allclose(df.sum().sum(), total)
+    assert 'Other renewable' not in df
+    assert gas == df['Fossil Gas'].sum()
+    assert np.allclose(df['Solar'].sum(), solar * scale)
+
+def test_remove_other_renewable_error():
+    cl = CachingDataClient(FIXTURES)
+    df = cl.get_generation("DE", 2017)
+    error_prone = {'foo', 'bar'}
+    with pytest.raises(ValueError):
+        cl._remove_other_renewable(df, error_prone)

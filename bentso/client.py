@@ -12,6 +12,18 @@ import os
 import pandas as pd
 
 
+RENEWABLES = {
+    'Solar',
+    'Wind Onshore',
+    'Wind Offshore',
+    'Hydro Water Reservoir',
+    'Hydro Run-of-river and poundage',
+    'Marine',
+    'Geothermal',
+    'Biomass',
+}
+
+
 class CachingDataClient:
     def __init__(self, location=None, key=None, verbose=True):
         self._cache_only = key == "cache-only"
@@ -48,14 +60,17 @@ class CachingDataClient:
             self.client.query_load,
         )
 
-    def get_generation(self, country, year):
-        return self._cached_query(
+    def get_generation(self, country, year, clean=False):
+        result = self._cached_query(
             (country,),
             year,
             'generation',
             country,
             self.client.query_generation,
         )
+        if clean:
+            result = self._clean_all(result)
+        return result
 
     def get_capacity(self, country, year):
         return self._cached_query(
@@ -124,3 +139,46 @@ class CachingDataClient:
         if sha256(filepath) != obj.sha256:
             raise OSError("Corrupted cache file: {}".format(obj.filename))
         return pd.read_pickle(filepath)
+
+    def _clean_all(self, df):
+        df = self._remove_zero_columns(df)
+        df = self._remove_other_renewable(df)
+        df = self._remove_other(df)
+        return df
+
+    def _remove_other_renewable(self, df, renewables=RENEWABLES):
+        """Remove `Other renewables` column and rescale renewable columns"""
+        renewables = set(renewables)
+
+        if 'Other renewable' in df:
+            renewable_total = sum([df[label].sum()
+                                   for label in renewables
+                                   if label in df])
+            if not renewables.intersection(set(df.columns)):
+                raise ValueError("No substitutable renewable sources found")
+
+            oth_renew_total = df['Other renewable'].sum()
+            scale = (oth_renew_total / renewable_total) + 1
+            print("Scale:", scale)
+            for label in renewables:
+                if label in df:
+                    df[label] *= scale
+            return df.drop('Other renewable', axis=1)
+        else:
+            return df
+
+    def _remove_other(self, df):
+        """Remove `Other` column and rescale everything else"""
+        if 'Other' in df:
+            total = df.sum().sum()
+            scale = total / (total - df['Other'].sum())
+            return df.drop('Other', axis=1) * scale
+        else:
+            return df
+
+    def _remove_zero_columns(self, df):
+        """Drop columns with zero generation"""
+        for col in df:
+            if not df[col].sum():
+                df = df.drop(col, axis=1)
+        return df

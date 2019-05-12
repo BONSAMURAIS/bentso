@@ -18,6 +18,15 @@ The basic class for data retrieval is ``bentso.client.CachingDataClient``. It wi
 
 Country codes should always be a two-letter ISO code; year should always be an integer.
 
+Cleaning generation mixes
+-------------------------
+
+Calling ``.get_generation(clean=True)`` will do the following:
+
+* Remove columns which have zero generation
+* Remove the column "Other renewable", and reallocate its production to the existing renewable sources (see the source code for details)
+* Remove the column "Other", and reallocate its production to all other generation sources
+
 Using a custom data directory
 -----------------------------
 
