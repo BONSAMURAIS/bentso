@@ -1,3 +1,7 @@
+### 0.2.2 (2019-05-13)
+
+Add some constants for countries and trade
+
 ### 0.2.1 (2019-05-12)
 
 Delete debugging statement

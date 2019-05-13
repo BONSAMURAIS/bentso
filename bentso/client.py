@@ -1,3 +1,4 @@
+from .constants import RENEWABLES
 from .db import get_database, File
 from .filesystem import (
     DEFAULT_DATA_DIR,
@@ -10,18 +11,6 @@ from peewee import DoesNotExist
 from unittest.mock import Mock
 import os
 import pandas as pd
-
-
-RENEWABLES = {
-    'Solar',
-    'Wind Onshore',
-    'Wind Offshore',
-    'Hydro Water Reservoir',
-    'Hydro Run-of-river and poundage',
-    'Marine',
-    'Geothermal',
-    'Biomass',
-}
 
 
 class CachingDataClient:

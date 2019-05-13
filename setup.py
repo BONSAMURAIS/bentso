@@ -26,7 +26,7 @@ def package_files(directory):
 
 setup(
     name='bentso',
-    version="0.2.1",
+    version="0.2.2",
     packages=packages,
     author="Chris Mutel",
     author_email="cmutel@gmail.com",

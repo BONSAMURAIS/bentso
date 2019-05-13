@@ -1,10 +1,6 @@
 from .client import CachingDataClient
+from .constants import COUNTRIES
 import itertools
-
-
-COUNTRIES = ['AT','BE','BA','BG','HR','CY','CZ','DK','EE','FI','FR',
-             'DE','GR','HU','IE','IS','IT','LV','LU','MK','ME','NL',
-             'NI','NO','PL','PT','RO','RS','SK','SI','SE','CH']
 
 
 def iterate_generation(year, location=None, verbose=False):
