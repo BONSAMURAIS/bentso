@@ -31,7 +31,7 @@ def test_request_parameters(monkeypatch, tmp_path):
     cl = CachingDataClient(str(tmp_path))
     cl.get_trade("CH", "AT", 2017)
     assert cl.client.args == ("CH", "AT")
-    assert cl.client.kwargs["end"] == pd.Timestamp(year=2018, month=1, day=1, hour=0, tz='Europe/Brussels')
+    assert cl.client.kwargs["end"] == pd.Timestamp(year=2017, month=12, day=31, hour=23, tz='Europe/Brussels')
     assert cl.client.kwargs["start"] == pd.Timestamp(year=2017, month=1, day=1, hour=0, tz='Europe/Brussels')
 
 def test_fixtures():
@@ -88,3 +88,27 @@ def test_remove_other_renewable_error():
     error_prone = {'foo', 'bar'}
     with pytest.raises(ValueError):
         cl._remove_other_renewable(df, error_prone)
+
+def test_full_year_fill_out():
+    cl = CachingDataClient(FIXTURES)
+    idx = pd.date_range('2018-03-01', periods=1000, freq='H')
+    df = pd.DataFrame(np.random.random(size=(1000,)), idx, columns=['foo'])
+    assert df.shape == (1000, 1)
+    fixed = cl._full_year(df, 2018)
+    assert fixed.shape == (8760, 1)
+
+def test_full_year_downsample():
+    cl = CachingDataClient(FIXTURES)
+    idx = pd.date_range('2018-01-01', periods=8760 * 4, freq='15Min')
+    df = pd.DataFrame(np.random.random(size=(8760 * 4,)), idx, columns=['foo'])
+    assert df.shape[0] > 8760
+    fixed = cl._full_year(df, 2018)
+    assert fixed.shape == (8760, 1)
+
+def test_full_year_both():
+    cl = CachingDataClient(FIXTURES)
+    idx = pd.date_range('2018-03-01', periods=1000, freq='15Min')
+    df = pd.DataFrame(np.random.random(size=(1000,)), idx, columns=['foo'])
+    assert df.shape == (1000, 1)
+    fixed = cl._full_year(df, 2018)
+    assert fixed.shape == (8760, 1)
