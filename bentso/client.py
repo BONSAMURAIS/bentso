@@ -49,7 +49,7 @@ class CachingDataClient:
             self.client.query_load,
         )
 
-    def get_generation(self, country, year, clean=False):
+    def get_generation(self, country, year, clean=False, full_year=False):
         result = self._cached_query(
             (country,),
             year,
@@ -59,6 +59,13 @@ class CachingDataClient:
         )
         if clean:
             result = self._clean_all(result)
+        if result.shape[0] < 8760 and full_year:
+            idx = pd.date_range(
+                '{}-01-01 00:00:00+01:00'.format(year),
+                '{}-12-31 23:00:00+01:00'.format(year),
+                freq='H'
+            )
+            result = result.reindex(idx).fillna(df.mean())
         return result
 
     def get_capacity(self, country, year):
