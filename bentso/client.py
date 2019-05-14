@@ -59,7 +59,10 @@ class CachingDataClient:
         )
         if clean:
             result = self._clean_all(result)
-        if result.shape[0] < 8760 and full_year:
+
+        if result.shape[0] > 8760 and full_year:
+            result = result.resample('H').sum()
+        elif result.shape[0] < 8760 and full_year:
             idx = pd.date_range(
                 '{}-01-01 00:00:00+01:00'.format(year),
                 '{}-12-31 23:00:00+01:00'.format(year),
