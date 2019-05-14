@@ -30,15 +30,18 @@ class CachingDataClient:
         else:
             self.client = Mock()
 
-    def get_trade(self, from_country, to_country, year):
+    def get_trade(self, from_country, to_country, year, full_year=False):
         country_field = "{}-{}".format(from_country, to_country)
-        return self._cached_query(
+        result = self._cached_query(
             (from_country, to_country,),
             year,
             'trade',
             country_field,
             self.client.query_crossborder_flows,
         )
+        if full_year:
+            result = self._full_year(result, year)
+        return result
 
     def get_consumption(self, country, year):
         return self._cached_query(
@@ -59,16 +62,8 @@ class CachingDataClient:
         )
         if clean:
             result = self._clean_all(result)
-
-        if result.shape[0] > 8760 and full_year:
-            result = result.resample('H').sum()
-        elif result.shape[0] < 8760 and full_year:
-            idx = pd.date_range(
-                '{}-01-01 00:00:00+01:00'.format(year),
-                '{}-12-31 23:00:00+01:00'.format(year),
-                freq='H'
-            )
-            result = result.reindex(idx).fillna(df.mean())
+        if full_year:
+            result = self._full_year(result, year)
         return result
 
     def get_capacity(self, country, year):
@@ -122,10 +117,19 @@ class CachingDataClient:
                 if self.verbose:
                     print("Value not in cache; returning nothing.")
 
+    def _full_year(self, df, year):
+        if df.shape[0] > 8760:
+            df = df.resample('H').sum()
+        if df.shape[0] < 8760:
+            start, end = self._get_start_end(year)
+            idx = pd.date_range(start, end, freq='H')
+            df = df.reindex(idx).fillna(df.mean())
+        return df
+
     def _get_start_end(self, year):
         return (
             pd.Timestamp(year=year, month=1, day=1, hour=0, tz='Europe/Brussels'),
-            pd.Timestamp(year=year + 1, month=1, day=1, hour=0, tz='Europe/Brussels'),
+            pd.Timestamp(year=year, month=12, day=31, hour=23, tz='Europe/Brussels'),
         )
 
     def _store_df(self, df, name):
