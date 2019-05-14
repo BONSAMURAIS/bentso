@@ -1,3 +1,8 @@
+## 0.3 (2019-05-14)
+
+* Added functionality to downscale data to hourly resolution
+* Added functionality to fill out complete years using average data in place of missing values
+
 ### 0.2.2 (2019-05-13)
 
 Add some constants for countries and trade
