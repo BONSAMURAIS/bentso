@@ -52,7 +52,7 @@ class CachingDataClient:
             self.client.query_load,
         )
 
-    def get_generation(self, country, year, clean=False, full_year=False):
+    def get_generation(self, country, year, clean=False, full_year=False, fix_lv=True):
         result = self._cached_query(
             (country,),
             year,
@@ -60,6 +60,8 @@ class CachingDataClient:
             country,
             self.client.query_generation,
         )
+        if country == 'LV' and fix_lv:
+            result.rename(columns={'Other': 'Fossil Oil'}, inplace=True)
         if clean:
             result = self._clean_all(result)
         if full_year:
@@ -86,6 +88,16 @@ class CachingDataClient:
             country,
             self.client.query_day_ahead_prices,
         )
+
+    def drop_and_rescale(self, label, df):
+        """Drop column ``label`` from dataframe ``df`` and rescale other columns so total is maintained."""
+        if label in df:
+            total, removed = df.sum(axis=1), df[label]
+            scale_vector = total / (total - removed)
+            df.drop(label, axis=1, inplace=True)
+            return df.multiply(scale_vector, axis='rows')
+        else:
+            return df
 
     def _cached_query(self, args, year, kind_label, country_label, method):
         year = int(year)
@@ -145,8 +157,10 @@ class CachingDataClient:
 
     def _clean_all(self, df):
         df = self._remove_zero_columns(df)
+        df = self._remove_na(df)
         df = self._remove_other_renewable(df)
-        df = self._remove_other(df)
+        df = self.drop_and_rescale('Other', df)
+        df = self._remove_actual_consumption(df)
         return df
 
     def _remove_other_renewable(self, df, renewables=RENEWABLES):
@@ -169,14 +183,13 @@ class CachingDataClient:
         else:
             return df
 
-    def _remove_other(self, df):
-        """Remove `Other` column and rescale everything else"""
-        if 'Other' in df:
-            total = df.sum().sum()
-            scale = total / (total - df['Other'].sum())
-            return df.drop('Other', axis=1) * scale
-        else:
-            return df
+    def _remove_actual_consumption(df):
+        df.drop([col for col in df.columns if col[1] == 'Actual Consumption'], axis=1, inplace=True)
+        df.columns = df.columns.get_level_values(0)
+        return df
+
+    def _remove_na(self, df):
+        return df.fillna(0)
 
     def _remove_zero_columns(self, df):
         """Drop columns with zero generation"""
