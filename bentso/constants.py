@@ -1,6 +1,9 @@
-COUNTRIES = ['AT','BE','BA','BG','HR','CY','CZ','DK','EE','FI','FR',
-             'DE','GR','HU','IE','IS','IT','LV','LU','MK','ME','NL',
-             'NI','NO','PL','PT','RO','RS','SK','SI','SE','CH']
+COUNTRIES = [
+    'AT', 'BA', 'BE', 'BG', 'CH', 'CZ', 'DE', 'DK',
+    'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU',
+    'IE', 'IT', 'LU', 'LV', 'ME', 'MK', 'MT', 'NL',
+    'NO', 'PL', 'PT', 'RO', 'RS', 'SE', 'SI', 'SK'
+]
 
 RENEWABLES = {
     'Solar',
@@ -14,34 +17,37 @@ RENEWABLES = {
 }
 
 # Not all countries actually present, even if they should be
-ENTSO_COUNTRIES = set(COUNTRIES).difference({"HR", "CY", "IS", "LU", "ME", "NI"})
+ENTSO_COUNTRIES = set(COUNTRIES).difference({"CY", "IS", "NI"})
 
 TRADE_PAIRS = {
     'AT': {'CH', 'CZ', 'DE', 'HU', 'IT', 'SI'},
     'BA': {'HR', 'ME', 'RS'},
-    'BE': {'FR', 'LU', 'NL'},
-    'BG': {'GR', 'MK', 'RO', 'RS'},
+    'BE': {'FR', 'GB', 'LU', 'NL'},
+    'BG': {'GR', 'MK', 'RO', 'RS', 'TR'},
     'CH': {'AT', 'DE', 'FR', 'IT'},
     'CZ': {'AT', 'DE', 'PL', 'SK'},
     'DE': {'AT', 'CH', 'CZ', 'DK', 'FR', 'LU', 'NL', 'PL', 'SE'},
     'DK': {'DE', 'NO', 'SE'},
     'EE': {'FI', 'LV'},
-    'FI': {'EE', 'NO', 'SE'},
-    'FR': {'BE', 'CH', 'DE', 'IT'},
-    'GR': {'BG', 'IT', 'MK'},
+    'FI': {'EE', 'NO', 'RU', 'SE'},
+    'FR': {'BE', 'CH', 'DE', 'ES', 'GB', 'IT'},
+    'GR': {'AL', 'BG', 'IT', 'MK', 'TR'},
     'HR': {'BA', 'HU', 'RS', 'SI'},
-    'HU': {'AT', 'HR', 'RO', 'RS', 'SK'},
-    'IT': {'AT', 'CH', 'FR', 'GR', 'SI'},
+    'HU': {'AT', 'HR', 'RO', 'RS', 'SK', 'UA'},
+    'IT': {'AT', 'CH', 'FR', 'GR', 'MT', 'SI'},
     'LU': {'BE', 'DE'},
-    'LV': {'EE'},
+    'LV': {'EE', 'LT', 'RU'},
     'ME': {'BA', 'RS'},
     'MK': {'BG', 'GR', 'RS'},
-    'NL': {'BE', 'DE', 'NO'},
-    'NO': {'DK', 'FI', 'NL', 'SE'},
-    'PL': {'CZ', 'DE', 'SE', 'SK'},
-    'RO': {'BG', 'HU', 'RS'},
-    'RS': {'BA', 'BG', 'HR', 'HU', 'ME', 'MK', 'RO'},
-    'SE': {'DE', 'DK', 'FI', 'NO', 'PL'},
+    'NL': {'BE', 'DE', 'GB', 'NO'},
+    'NO': {'DK', 'FI', 'NL', 'RU', 'SE'},
+    'PL': {'CZ', 'DE', 'LT', 'SE', 'SK', 'UA'},
+    'RO': {'BG', 'HU', 'RS', 'UA'},
+    'RS': {'AL', 'BA', 'BG', 'HR', 'HU', 'ME', 'MK', 'RO'},
+    'SE': {'DE', 'DK', 'FI', 'LT', 'NO', 'PL'},
     'SI': {'AT', 'HR', 'IT'},
-    'SK': {'CZ', 'HU', 'PL'},
+    'SK': {'CZ', 'HU', 'PL', 'UA'},
+    'ES': {'FR', 'MA', 'PT'},
+    'PT': {'ES'},
+    'IE': {'GB'}
 }
