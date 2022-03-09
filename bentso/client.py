@@ -60,10 +60,10 @@ class CachingDataClient:
             country,
             self.client.query_generation,
         )
-        if country == 'LV' and fix_lv:
-            result.rename(columns={'Other': 'Fossil Oil'}, inplace=True)
         if clean:
             result = self._clean_all(result)
+        if country == 'LV' and fix_lv:
+            result.rename(columns={'Other': 'Fossil Oil'}, inplace=True)
         if full_year:
             result = self._full_year(result, year)
         return result
@@ -158,9 +158,9 @@ class CachingDataClient:
     def _clean_all(self, df):
         df = self._remove_zero_columns(df)
         df = self._remove_na(df)
+        df = self._remove_actual_consumption(df)
         df = self._remove_other_renewable(df)
         df = self.drop_and_rescale('Other', df)
-        df = self._remove_actual_consumption(df)
         return df
 
     def _remove_other_renewable(self, df, renewables=RENEWABLES):
@@ -183,7 +183,7 @@ class CachingDataClient:
         else:
             return df
 
-    def _remove_actual_consumption(df):
+    def _remove_actual_consumption(self, df):
         df.drop([col for col in df.columns if col[1] == 'Actual Consumption'], axis=1, inplace=True)
         df.columns = df.columns.get_level_values(0)
         return df
