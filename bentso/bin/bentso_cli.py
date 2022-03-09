@@ -18,7 +18,7 @@ import sys
 
 def main():
     try:
-        args = docopt(__doc__, version='Version number for *this* CLI')
+        args = docopt(__doc__, version="Version number for *this* CLI")
         some_wrapper_function(args)
     except KeyboardInterrupt:
         print("Terminating CLI")

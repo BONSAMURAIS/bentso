@@ -17,7 +17,7 @@ class CachingDataClient:
     def __init__(self, location=None, key=None, verbose=True):
         self._cache_only = key == "cache-only"
         self.verbose = verbose
-        USER_PATH = os.environ.get('BENTSO_DATA_DIR')
+        USER_PATH = os.environ.get("BENTSO_DATA_DIR")
         self.dir = location or USER_PATH or DEFAULT_DATA_DIR
         create_dir(self.dir)
         get_database(self.dir)
@@ -33,9 +33,12 @@ class CachingDataClient:
     def get_trade(self, from_country, to_country, year, full_year=False):
         country_field = "{}-{}".format(from_country, to_country)
         result = self._cached_query(
-            (from_country, to_country,),
+            (
+                from_country,
+                to_country,
+            ),
             year,
-            'trade',
+            "trade",
             country_field,
             self.client.query_crossborder_flows,
         )
@@ -47,7 +50,7 @@ class CachingDataClient:
         return self._cached_query(
             (country,),
             year,
-            'load',
+            "load",
             country,
             self.client.query_load,
         )
@@ -56,14 +59,14 @@ class CachingDataClient:
         result = self._cached_query(
             (country,),
             year,
-            'generation',
+            "generation",
             country,
             self.client.query_generation,
         )
         if clean:
             result = self._clean_all(result)
-        if country == 'LV' and fix_lv:
-            result.rename(columns={'Other': 'Fossil Oil'}, inplace=True)
+        if country == "LV" and fix_lv:
+            result.rename(columns={"Other": "Fossil Oil"}, inplace=True)
         if full_year:
             result = self._full_year(result, year)
         return result
@@ -72,7 +75,7 @@ class CachingDataClient:
         return self._cached_query(
             (country,),
             year,
-            'capacity',
+            "capacity",
             country,
             self.client.query_installed_generation_capacity,
         )
@@ -84,7 +87,7 @@ class CachingDataClient:
         return self._cached_query(
             (country,),
             year,
-            'price',
+            "price",
             country,
             self.client.query_day_ahead_prices,
         )
@@ -95,7 +98,7 @@ class CachingDataClient:
             total, removed = df.sum(axis=1), df[label]
             scale_vector = total / (total - removed)
             df.drop(label, axis=1, inplace=True)
-            return df.multiply(scale_vector, axis='rows')
+            return df.multiply(scale_vector, axis="rows")
         else:
             return df
 
@@ -103,9 +106,15 @@ class CachingDataClient:
         year = int(year)
         start, end = self._get_start_end(year)
         try:
-            obj = File.select().where(File.kind==kind_label,
-                                      File.country==country_label,
-                                      File.year==year).get()
+            obj = (
+                File.select()
+                .where(
+                    File.kind == kind_label,
+                    File.country == country_label,
+                    File.year == year,
+                )
+                .get()
+            )
             return self._load_df(obj)
         except DoesNotExist:
             if not self._cache_only:
@@ -114,8 +123,7 @@ class CachingDataClient:
                 start, end = self._get_start_end(year)
                 df = method(*args, start=start, end=end)
                 hash, name = self._store_df(
-                    df,
-                    "{}-{}-{}.pickle".format(kind_label, country_label, year)
+                    df, "{}-{}-{}.pickle".format(kind_label, country_label, year)
                 )
                 File.create(
                     filename=name,
@@ -131,17 +139,17 @@ class CachingDataClient:
 
     def _full_year(self, df, year):
         if df.shape[0] > 8760:
-            df = df.resample('H').sum()
+            df = df.resample("H").sum()
         if df.shape[0] < 8760:
             start, end = self._get_start_end(year)
-            idx = pd.date_range(start, end, freq='H')
+            idx = pd.date_range(start, end, freq="H")
             df = df.reindex(idx).fillna(df.mean())
         return df
 
     def _get_start_end(self, year):
         return (
-            pd.Timestamp(year=year, month=1, day=1, hour=0, tz='Europe/Brussels'),
-            pd.Timestamp(year=year, month=12, day=31, hour=23, tz='Europe/Brussels'),
+            pd.Timestamp(year=year, month=1, day=1, hour=0, tz="Europe/Brussels"),
+            pd.Timestamp(year=year, month=12, day=31, hour=23, tz="Europe/Brussels"),
         )
 
     def _store_df(self, df, name):
@@ -160,31 +168,35 @@ class CachingDataClient:
         df = self._remove_na(df)
         df = self._remove_actual_consumption(df)
         df = self._remove_other_renewable(df)
-        df = self.drop_and_rescale('Other', df)
+        df = self.drop_and_rescale("Other", df)
         return df
 
     def _remove_other_renewable(self, df, renewables=RENEWABLES):
         """Remove `Other renewables` column and rescale renewable columns"""
         renewables = set(renewables)
 
-        if 'Other renewable' in df:
-            renewable_total = sum([df[label].sum()
-                                   for label in renewables
-                                   if label in df])
+        if "Other renewable" in df:
+            renewable_total = sum(
+                [df[label].sum() for label in renewables if label in df]
+            )
             if not renewables.intersection(set(df.columns)):
                 raise ValueError("No substitutable renewable sources found")
 
-            oth_renew_total = df['Other renewable'].sum()
+            oth_renew_total = df["Other renewable"].sum()
             scale = (oth_renew_total / renewable_total) + 1
             for label in renewables:
                 if label in df:
                     df[label] *= scale
-            return df.drop('Other renewable', axis=1)
+            return df.drop("Other renewable", axis=1)
         else:
             return df
 
     def _remove_actual_consumption(self, df):
-        df.drop([col for col in df.columns if col[1] == 'Actual Consumption'], axis=1, inplace=True)
+        df.drop(
+            [col for col in df.columns if col[1] == "Actual Consumption"],
+            axis=1,
+            inplace=True,
+        )
         df.columns = df.columns.get_level_values(0)
         return df
 
