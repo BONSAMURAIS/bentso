@@ -138,9 +138,11 @@ class CachingDataClient:
                     print("Value not in cache; returning nothing.")
 
     def _full_year(self, df, year):
-        if df.shape[0] > 8760:
-            df = df.resample("H").sum()
-        if df.shape[0] < 8760:
+        start, end = self._get_start_end(year)
+        total_hours = round((end - start).total_seconds() / 60 / 60)
+        if df.shape[0] > total_hours:
+            df = df.resample("H").sum()[:total_hours - 1]
+        if df.shape[0] < total_hours:
             start, end = self._get_start_end(year)
             idx = pd.date_range(start, end, freq="H")
             df = df.reindex(idx).fillna(df.mean())
