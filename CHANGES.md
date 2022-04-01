@@ -1,3 +1,12 @@
+## 0.4 (2022-03-09)
+
+* Added trade to non-ENTSO countries and missing internal trade links
+* Added missing countries
+* Fixed rescaling of `Other` to be time-interval specific instead of yearly average
+* Added more generation dataframe cleaning functions
+* Added option patch to Latvia to rename `Other` to `Fossil oil`
+* Raise `ValueError` if ENTSO API call fails
+
 ## 0.3 (2019-05-14)
 
 * Added functionality to downscale data to hourly resolution
